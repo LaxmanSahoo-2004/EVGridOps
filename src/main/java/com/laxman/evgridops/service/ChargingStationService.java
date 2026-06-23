@@ -3,6 +3,7 @@ package com.laxman.evgridops.service;
 import com.laxman.evgridops.dto.ChargingStationRequestDTO;
 import com.laxman.evgridops.dto.ChargingStationResponseDTO;
 import com.laxman.evgridops.entity.ChargingStation;
+import com.laxman.evgridops.exception.StationNotFoundException;
 import com.laxman.evgridops.repository.ChargingStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,39 @@ public class ChargingStationService {
         }
 
         return responseList;
+    }
+
+    public ChargingStationResponseDTO updateStation(Long id, ChargingStationRequestDTO requestDTO) {
+
+        ChargingStation station = repository.findById(id).orElseThrow(() -> new StationNotFoundException("Station not found with id " + id));
+
+        station.setName(requestDTO.getName());
+        station.setLatitude(requestDTO.getLatitude());
+        station.setLongitude(requestDTO.getLongitude());
+        station.setChargerType(requestDTO.getChargerType());
+        station.setCapacity(requestDTO.getCapacity());
+        station.setStatus(requestDTO.getStatus());
+
+        ChargingStation updatedStation = repository.save(station);
+
+        ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
+
+        responseDTO.setId(updatedStation.getId());
+        responseDTO.setName(updatedStation.getName());
+        responseDTO.setLatitude(updatedStation.getLatitude());
+        responseDTO.setLongitude(updatedStation.getLongitude());
+        responseDTO.setChargerType(updatedStation.getChargerType());
+        responseDTO.setCapacity(updatedStation.getCapacity());
+        responseDTO.setStatus(updatedStation.getStatus());
+
+        return responseDTO;
+    }
+
+    public void deleteStation(Long id) {
+
+        ChargingStation station = repository.findById(id).orElseThrow(() -> new StationNotFoundException("Station not found with id " + id));
+
+        repository.delete(station);
     }
 
 }

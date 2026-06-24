@@ -50,4 +50,36 @@ public class ChargingStationController {
         return ResponseEntity.ok("Station deleted successfully");
     }
 
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<ChargingStationResponseDTO>> getStationsByStatus(@PathVariable String status) {
+
+        List<ChargingStationResponseDTO> stations = service.getStationsByStatus(status);
+
+        return ResponseEntity.ok(stations);
+    }
+
+    @GetMapping("/type/{chargerType}")
+    public ResponseEntity<List<ChargingStationResponseDTO>> getStationsByChargerType(@PathVariable String chargerType) {
+
+        List<ChargingStationResponseDTO> stations = service.getStationsByChargerType(chargerType);
+
+        return ResponseEntity.ok(stations);
+    }
+
+    @GetMapping("/count/active")
+    public ResponseEntity<Long> getActiveStationCount() {
+
+        long count = service.getActiveStationCount();
+
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ChargingStationResponseDTO> getStationById(@PathVariable Long id) {
+
+        ChargingStationResponseDTO station = service.getStationById(id);
+
+        return ResponseEntity.ok(station);
+    }
+
 }

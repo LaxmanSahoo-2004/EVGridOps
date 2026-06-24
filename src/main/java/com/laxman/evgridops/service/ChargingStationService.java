@@ -104,4 +104,74 @@ public class ChargingStationService {
         repository.delete(station);
     }
 
+    public List<ChargingStationResponseDTO> getStationsByStatus(String status) {
+
+        List<ChargingStation> stations = repository.findByStatus(status);
+
+        List<ChargingStationResponseDTO> responseList = new ArrayList<>();
+
+        for (ChargingStation station : stations) {
+
+            ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
+
+            responseDTO.setId(station.getId());
+            responseDTO.setName(station.getName());
+            responseDTO.setLatitude(station.getLatitude());
+            responseDTO.setLongitude(station.getLongitude());
+            responseDTO.setChargerType(station.getChargerType());
+            responseDTO.setCapacity(station.getCapacity());
+            responseDTO.setStatus(station.getStatus());
+
+            responseList.add(responseDTO);
+        }
+
+        return responseList;
+    }
+
+    public List<ChargingStationResponseDTO> getStationsByChargerType(String chargerType) {
+
+        List<ChargingStation> stations = repository.findByChargerType(chargerType);
+
+        List<ChargingStationResponseDTO> responseList = new ArrayList<>();
+
+        for (ChargingStation station : stations) {
+
+            ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
+
+            responseDTO.setId(station.getId());
+            responseDTO.setName(station.getName());
+            responseDTO.setLatitude(station.getLatitude());
+            responseDTO.setLongitude(station.getLongitude());
+            responseDTO.setChargerType(station.getChargerType());
+            responseDTO.setCapacity(station.getCapacity());
+            responseDTO.setStatus(station.getStatus());
+
+            responseList.add(responseDTO);
+        }
+
+        return responseList;
+    }
+
+    public long getActiveStationCount() {
+
+        return repository.countByStatus("ACTIVE");
+    }
+
+    public ChargingStationResponseDTO getStationById(Long id) {
+
+        ChargingStation station = repository.findById(id).orElseThrow(() -> new StationNotFoundException("Station not found with id " + id));
+
+        ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
+
+        responseDTO.setId(station.getId());
+        responseDTO.setName(station.getName());
+        responseDTO.setLatitude(station.getLatitude());
+        responseDTO.setLongitude(station.getLongitude());
+        responseDTO.setChargerType(station.getChargerType());
+        responseDTO.setCapacity(station.getCapacity());
+        responseDTO.setStatus(station.getStatus());
+
+        return responseDTO;
+    }
+
 }

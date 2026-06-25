@@ -33,18 +33,8 @@ public class ChargingStationService {
         ChargingStation savedStation = repository.save(station);
 
         // Entity -> ResponseDTO
+        return convertToResponseDTO(savedStation);
 
-        ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
-
-        responseDTO.setId(savedStation.getId());
-        responseDTO.setName(savedStation.getName());
-        responseDTO.setLatitude(savedStation.getLatitude());
-        responseDTO.setLongitude(savedStation.getLongitude());
-        responseDTO.setChargerType(savedStation.getChargerType());
-        responseDTO.setCapacity(savedStation.getCapacity());
-        responseDTO.setStatus(savedStation.getStatus());
-
-        return responseDTO;
     }
 
     public List<ChargingStationResponseDTO> getAllStations() {
@@ -55,17 +45,7 @@ public class ChargingStationService {
 
         for (ChargingStation station : stations) {
 
-            ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
-
-            responseDTO.setId(station.getId());
-            responseDTO.setName(station.getName());
-            responseDTO.setLatitude(station.getLatitude());
-            responseDTO.setLongitude(station.getLongitude());
-            responseDTO.setChargerType(station.getChargerType());
-            responseDTO.setCapacity(station.getCapacity());
-            responseDTO.setStatus(station.getStatus());
-
-            responseList.add(responseDTO);
+            responseList.add(convertToResponseDTO(station));
         }
 
         return responseList;
@@ -84,17 +64,8 @@ public class ChargingStationService {
 
         ChargingStation updatedStation = repository.save(station);
 
-        ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
+        return convertToResponseDTO(station);
 
-        responseDTO.setId(updatedStation.getId());
-        responseDTO.setName(updatedStation.getName());
-        responseDTO.setLatitude(updatedStation.getLatitude());
-        responseDTO.setLongitude(updatedStation.getLongitude());
-        responseDTO.setChargerType(updatedStation.getChargerType());
-        responseDTO.setCapacity(updatedStation.getCapacity());
-        responseDTO.setStatus(updatedStation.getStatus());
-
-        return responseDTO;
     }
 
     public void deleteStation(Long id) {
@@ -112,17 +83,7 @@ public class ChargingStationService {
 
         for (ChargingStation station : stations) {
 
-            ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
-
-            responseDTO.setId(station.getId());
-            responseDTO.setName(station.getName());
-            responseDTO.setLatitude(station.getLatitude());
-            responseDTO.setLongitude(station.getLongitude());
-            responseDTO.setChargerType(station.getChargerType());
-            responseDTO.setCapacity(station.getCapacity());
-            responseDTO.setStatus(station.getStatus());
-
-            responseList.add(responseDTO);
+            responseList.add(convertToResponseDTO(station));
         }
 
         return responseList;
@@ -136,17 +97,7 @@ public class ChargingStationService {
 
         for (ChargingStation station : stations) {
 
-            ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
-
-            responseDTO.setId(station.getId());
-            responseDTO.setName(station.getName());
-            responseDTO.setLatitude(station.getLatitude());
-            responseDTO.setLongitude(station.getLongitude());
-            responseDTO.setChargerType(station.getChargerType());
-            responseDTO.setCapacity(station.getCapacity());
-            responseDTO.setStatus(station.getStatus());
-
-            responseList.add(responseDTO);
+            responseList.add(convertToResponseDTO(station));
         }
 
         return responseList;
@@ -160,6 +111,11 @@ public class ChargingStationService {
     public ChargingStationResponseDTO getStationById(Long id) {
 
         ChargingStation station = repository.findById(id).orElseThrow(() -> new StationNotFoundException("Station not found with id " + id));
+
+        return convertToResponseDTO(station);
+    }
+
+    private ChargingStationResponseDTO convertToResponseDTO(ChargingStation station) {
 
         ChargingStationResponseDTO responseDTO = new ChargingStationResponseDTO();
 

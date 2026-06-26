@@ -2,20 +2,39 @@ package com.laxman.evgridops.service;
 
 import com.laxman.evgridops.dto.ChargingStationRequestDTO;
 import com.laxman.evgridops.dto.ChargingStationResponseDTO;
+import com.laxman.evgridops.dto.openchargemap.OpenChargeMapDTO;
 import com.laxman.evgridops.entity.ChargingStation;
 import com.laxman.evgridops.exception.StationNotFoundException;
 import com.laxman.evgridops.repository.ChargingStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class ChargingStationService {
 
+    @Value("${openchargemap.api.key}")
+    private String apiKey;
+
     @Autowired
     private ChargingStationRepository repository;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public List<OpenChargeMapDTO> fetchStations() {
+
+        String url = "https://api.openchargemap.io/v3/poi?output=json&countrycode=IN&maxresults=5&key=" + apiKey;
+
+        OpenChargeMapDTO[] response = restTemplate.getForObject(url, OpenChargeMapDTO[].class);
+
+        return Arrays.asList(response);
+    }
 
     public ChargingStationResponseDTO saveStation(ChargingStationRequestDTO requestDTO) {
 

@@ -2,6 +2,7 @@ package com.laxman.evgridops.controller;
 
 import com.laxman.evgridops.dto.ChargingStationRequestDTO;
 import com.laxman.evgridops.dto.ChargingStationResponseDTO;
+import com.laxman.evgridops.dto.openchargemap.OpenChargeMapDTO;
 import com.laxman.evgridops.service.ChargingStationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,11 @@ public class ChargingStationController {
         ChargingStationResponseDTO station = service.getStationById(id);
 
         return ResponseEntity.ok(station);
+    }
+
+    @GetMapping("/import")
+    public List<OpenChargeMapDTO> importStations() {
+        return service.fetchStations();
     }
 
 }

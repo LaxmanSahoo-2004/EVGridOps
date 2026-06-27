@@ -15,6 +15,10 @@ public class ChargingStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // External API's unique ID
+    private Integer openChargeMapId;
+
     private String name;
     private Double latitude;
     private Double longitude;

@@ -83,7 +83,7 @@ public class ChargingStationController {
         return ResponseEntity.ok(station);
     }
 
-    @GetMapping("/import")
+    @PostMapping("/import")
     public List<OpenChargeMapDTO> importStations() {
         return service.fetchStations();
     }

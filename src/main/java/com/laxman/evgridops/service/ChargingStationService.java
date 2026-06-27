@@ -33,7 +33,21 @@ public class ChargingStationService {
 
         OpenChargeMapDTO[] response = restTemplate.getForObject(url, OpenChargeMapDTO[].class);
 
-        return Arrays.asList(response);
+        List<OpenChargeMapDTO> stationList = Arrays.asList(response);
+
+        for (OpenChargeMapDTO dto : stationList) {
+
+            if (!repository.existsByOpenChargeMapId(dto.getId())) {
+
+                ChargingStation station = convertToEntity(dto);
+
+                repository.save(station);
+
+            }
+
+        }
+
+        return stationList;
     }
 
     public ChargingStationResponseDTO saveStation(ChargingStationRequestDTO requestDTO) {
@@ -149,4 +163,27 @@ public class ChargingStationService {
         return responseDTO;
     }
 
+    private ChargingStation convertToEntity(OpenChargeMapDTO dto) {
+
+        ChargingStation station = new ChargingStation();
+
+        station.setOpenChargeMapId(dto.getId());
+
+        station.setName(dto.getAddressInfo().getTitle());
+
+        station.setLatitude(dto.getAddressInfo().getLatitude());
+
+        station.setLongitude(dto.getAddressInfo().getLongitude());
+
+        station.setStatus(dto.getStatusType().getTitle());
+
+        if (dto.getConnections() != null && !dto.getConnections().isEmpty()) {
+
+            station.setChargerType(dto.getConnections().get(0).getConnectionType().getTitle());
+
+            station.setCapacity(dto.getConnections().get(0).getQuantity());
+
+        }
+        return station;
+    }
 }

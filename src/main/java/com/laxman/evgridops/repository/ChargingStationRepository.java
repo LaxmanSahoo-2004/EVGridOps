@@ -2,6 +2,7 @@ package com.laxman.evgridops.repository;
 
 import com.laxman.evgridops.entity.ChargingStation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface ChargingStationRepository extends JpaRepository<ChargingStation
     long countByStatus(String status);
 
     boolean existsByOpenChargeMapId(Integer openChargeMapId);
+
+
 }

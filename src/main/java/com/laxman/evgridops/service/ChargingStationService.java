@@ -141,6 +141,12 @@ public class ChargingStationService {
         return repository.countByStatus("ACTIVE");
     }
 
+    public long getInactiveStationCount() {
+
+        return repository.countByStatus("INACTIVE");
+
+    }
+
     public ChargingStationResponseDTO getStationById(Long id) {
 
         ChargingStation station = repository.findById(id).orElseThrow(() -> new StationNotFoundException("Station not found with id " + id));
@@ -175,7 +181,11 @@ public class ChargingStationService {
 
         station.setLongitude(dto.getAddressInfo().getLongitude());
 
-        station.setStatus(dto.getStatusType().getTitle());
+        if (dto.getStatusType().getIsOperational()) {
+            station.setStatus("ACTIVE");
+        } else {
+            station.setStatus("INACTIVE");
+        }
 
         if (dto.getConnections() != null && !dto.getConnections().isEmpty()) {
 
@@ -186,4 +196,11 @@ public class ChargingStationService {
         }
         return station;
     }
+
+    public long getTotalStationCount() {
+
+        return repository.count();
+
+    }
+
 }

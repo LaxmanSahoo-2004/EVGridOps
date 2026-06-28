@@ -67,10 +67,26 @@ public class ChargingStationController {
         return ResponseEntity.ok(stations);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalStationCount() {
+
+        long count = service.getTotalStationCount();
+
+        return ResponseEntity.ok(count);
+    }
+
     @GetMapping("/count/active")
     public ResponseEntity<Long> getActiveStationCount() {
 
         long count = service.getActiveStationCount();
+
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/count/inactive")
+    public ResponseEntity<Long> getInactiveStationCount() {
+
+        long count = service.getInactiveStationCount();
 
         return ResponseEntity.ok(count);
     }
@@ -87,5 +103,6 @@ public class ChargingStationController {
     public List<OpenChargeMapDTO> importStations() {
         return service.fetchStations();
     }
+
 
 }

@@ -6,6 +6,7 @@ import com.laxman.evgridops.dto.openchargemap.OpenChargeMapDTO;
 import com.laxman.evgridops.service.ChargingStationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -103,6 +104,19 @@ public class ChargingStationController {
     public List<OpenChargeMapDTO> importStations() {
         return service.fetchStations();
     }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<ChargingStationResponseDTO>> getStations(
+
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
+
+        return ResponseEntity.ok(
+                service.getStations(page, size, sortBy, direction));
+    }
+
 
 
 }

@@ -8,6 +8,10 @@ import com.laxman.evgridops.exception.StationNotFoundException;
 import com.laxman.evgridops.repository.ChargingStationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,7 +33,7 @@ public class ChargingStationService {
 
     public List<OpenChargeMapDTO> fetchStations() {
 
-        String url = "https://api.openchargemap.io/v3/poi?output=json&countrycode=IN&maxresults=5&key=" + apiKey;
+        String url = "https://api.openchargemap.io/v3/poi?output=json&countrycode=IN&maxresults=7&key=" + apiKey;
 
         OpenChargeMapDTO[] response = restTemplate.getForObject(url, OpenChargeMapDTO[].class);
 
@@ -202,6 +206,23 @@ public class ChargingStationService {
 
         return repository.count();
 
+    }
+
+    public Page<ChargingStationResponseDTO> getStations(
+            int page,
+            int size,
+            String sortBy,
+            String direction) {
+
+        Sort sort = direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).descending()
+                : Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<ChargingStation> stationPage = repository.findAll(pageable);
+
+        return stationPage.map(this::convertToResponseDTO);
     }
 
 }

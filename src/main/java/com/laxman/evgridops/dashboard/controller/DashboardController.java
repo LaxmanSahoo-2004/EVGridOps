@@ -2,6 +2,7 @@ package com.laxman.evgridops.dashboard.controller;
 
 import com.laxman.evgridops.dashboard.dto.ChargerDistributionDTO;
 import com.laxman.evgridops.dashboard.dto.DashboardResponseDTO;
+import com.laxman.evgridops.dashboard.dto.RecentImportDTO;
 import com.laxman.evgridops.dashboard.service.DashboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,13 @@ public class DashboardController {
     public ResponseEntity<List<ChargerDistributionDTO>> getChargerDistribution() {
 
         return ResponseEntity.ok(dashboardService.getChargerDistribution());
+
+    }
+
+    @GetMapping("/recent-imports")
+    public ResponseEntity<List<RecentImportDTO>> getRecentImports() {
+
+        return ResponseEntity.ok(dashboardService.getRecentImports());
 
     }
 

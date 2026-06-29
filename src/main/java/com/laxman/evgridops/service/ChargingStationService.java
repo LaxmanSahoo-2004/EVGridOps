@@ -160,6 +160,7 @@ public class ChargingStationService {
 
         responseDTO.setId(station.getId());
         responseDTO.setName(station.getName());
+        responseDTO.setCreatedAt(station.getCreatedAt());
         responseDTO.setLatitude(station.getLatitude());
         responseDTO.setLongitude(station.getLongitude());
         responseDTO.setChargerType(station.getChargerType());

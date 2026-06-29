@@ -2,6 +2,8 @@ package com.laxman.evgridops.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -12,6 +14,8 @@ public class ChargingStationResponseDTO {
     private Long id;
 
     private String name;
+
+    private LocalDateTime createdAt;
 
     private Double latitude;
 

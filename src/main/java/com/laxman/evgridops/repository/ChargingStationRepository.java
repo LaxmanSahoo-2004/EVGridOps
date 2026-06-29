@@ -28,14 +28,15 @@ public interface ChargingStationRepository extends JpaRepository<ChargingStation
     Integer getTotalChargingPoints();
 
     @Query("""
-       SELECT new com.laxman.evgridops.dashboard.dto.ChargerDistributionDTO(
-           c.chargerType,
-           COUNT(c)
-       )
-       FROM ChargingStation c
-       GROUP BY c.chargerType
-       """)
+            SELECT new com.laxman.evgridops.dashboard.dto.ChargerDistributionDTO(
+                c.chargerType,
+                COUNT(c)
+            )
+            FROM ChargingStation c
+            GROUP BY c.chargerType
+            """)
     List<ChargerDistributionDTO> getChargerDistribution();
 
+    List<ChargingStation> findTop5ByOpenChargeMapIdIsNotNullOrderByCreatedAtDesc();
 
 }

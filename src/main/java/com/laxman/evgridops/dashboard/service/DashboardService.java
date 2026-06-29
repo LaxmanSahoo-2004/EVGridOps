@@ -1,10 +1,13 @@
 package com.laxman.evgridops.dashboard.service;
 
+import com.laxman.evgridops.dashboard.dto.ChargerDistributionDTO;
 import com.laxman.evgridops.dashboard.dto.DashboardResponseDTO;
 import com.laxman.evgridops.repository.ChargingStationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +33,11 @@ public class DashboardService {
         response.setTotalChargingPoints(chargingStationRepository.getTotalChargingPoints());
 
         return response;
+    }
+
+    public List<ChargerDistributionDTO> getChargerDistribution() {
+
+        return chargingStationRepository.getChargerDistribution();
+
     }
 }

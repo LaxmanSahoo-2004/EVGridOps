@@ -16,5 +16,15 @@ public interface ChargingStationRepository extends JpaRepository<ChargingStation
 
     boolean existsByOpenChargeMapId(Integer openChargeMapId);
 
+    long countByOpenChargeMapIdIsNotNull();
+
+    long countByOpenChargeMapIdIsNull();
+
+    @Query("""
+            SELECT COALESCE(SUM(c.capacity), 0)
+            FROM ChargingStation c
+            """)
+    Integer getTotalChargingPoints();
+
 
 }

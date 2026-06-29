@@ -1,4 +1,4 @@
-package com.laxman.evgridops.dashboard.service;
+package com.laxman.evgridops.dashboard.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -26,4 +26,6 @@ public class ChargingStationResponseDTO {
     private Integer capacity;
 
     private String status;
+
+    private Double distanceInKm;
 }

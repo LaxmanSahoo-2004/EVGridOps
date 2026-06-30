@@ -1,5 +1,6 @@
 package com.laxman.evgridops.service;
 
+import com.laxman.evgridops.dto.NearbyStationRequestDTO;
 import com.laxman.evgridops.dto.ChargingStationRequestDTO;
 import com.laxman.evgridops.dto.ChargingStationResponseDTO;
 import com.laxman.evgridops.dto.openchargemap.OpenChargeMapDTO;
@@ -223,6 +224,58 @@ public class ChargingStationService {
         Page<ChargingStation> stationPage = repository.findAll(pageable);
 
         return stationPage.map(this::convertToResponseDTO);
+    }
+
+    public List<ChargingStationResponseDTO> findNearbyStations(
+            NearbyStationRequestDTO request) {
+
+        List<ChargingStation> stations = repository.findAll();
+
+        List<ChargingStationResponseDTO> nearbyStations = new ArrayList<>();
+
+        for (ChargingStation station : stations) {
+
+            double distance = calculateDistance(
+                    request.getLatitude(),
+                    request.getLongitude(),
+                    station.getLatitude(),
+                    station.getLongitude()
+            );
+
+            if (distance <= request.getRadius()) {
+
+                ChargingStationResponseDTO response = convertToResponseDTO(station);
+
+                response.setDistanceInKm(distance);
+
+                nearbyStations.add(response);
+            }
+
+        }
+
+        return nearbyStations;
+    }
+
+    private double calculateDistance(
+            double lat1,
+            double lon1,
+            double lat2,
+            double lon2) {
+
+        final int EARTH_RADIUS = 6371;
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1))
+                * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2)
+                * Math.sin(lonDistance / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return EARTH_RADIUS * c;
     }
 
 }

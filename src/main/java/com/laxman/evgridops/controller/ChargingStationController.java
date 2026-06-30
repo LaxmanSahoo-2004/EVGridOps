@@ -1,5 +1,6 @@
 package com.laxman.evgridops.controller;
 
+import com.laxman.evgridops.dto.NearbyStationRequestDTO;
 import com.laxman.evgridops.dto.ChargingStationRequestDTO;
 import com.laxman.evgridops.dto.ChargingStationResponseDTO;
 import com.laxman.evgridops.dto.openchargemap.OpenChargeMapDTO;
@@ -117,6 +118,12 @@ public class ChargingStationController {
                 service.getStations(page, size, sortBy, direction));
     }
 
+    @PostMapping("/nearby")
+    public ResponseEntity<List<ChargingStationResponseDTO>> findNearbyStations(
+            @Valid @RequestBody NearbyStationRequestDTO request) {
+
+        return ResponseEntity.ok(service.findNearbyStations(request));
+    }
 
 
 }
